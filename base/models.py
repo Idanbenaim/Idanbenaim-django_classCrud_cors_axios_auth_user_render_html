@@ -12,3 +12,5 @@ class Students(models.Model):
    
    def __str__(self):
           return self.sname
+
+

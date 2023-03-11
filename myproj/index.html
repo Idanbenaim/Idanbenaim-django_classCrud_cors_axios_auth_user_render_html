@@ -44,33 +44,13 @@
             <!--here the innerhtml table-->
         </tbody>
     </table>
-    <!-- Username<input id="user">
-    Password<input id="pwd">
-    <button onclick="login()">Login</button> -->
+
     <button onclick="loadData()">Load students</button>
 
     <script>
         let token = ""
         const MY_SERVER = "http://127.0.0.1:8000"; // had to add last slash else I receive CORS error
-        // const config = {};
-
-        // const login = async () => {
-        //     try {
-        //         const res = await axios.post(MY_SERVER + "/login/", {
-        //             username: user.value,
-        //             password: pwd.value,
-        //         });
-        //         const accessToken = res.data.access;
-        //         const refreshToken = res.data.refresh;
-        //         config.headers = { Authorization: `Bearer ${accessToken}` };
-        //         console.log(`Access token: ${accessToken}`);
-        //         console.log(`Refresh token: ${refreshToken}`);
-        //         loadData(); // or any other function that requires authentication
-        //     } catch (error) {
-        //         console.log(error);
-        //     }
-        // };
-
+        const config = {};
 
         const loadData = async () => {
             const token = localStorage.getItem('access_token');
@@ -100,6 +80,9 @@
 
 
         function delstudent(id) {
+            const token = localStorage.getItem('access_token');
+            const config = { headers: { Authorization: `Bearer ${token}` } };
+
             axios
                 .delete(MY_SERVER + "/students/" + id, config)
                 .then((result) => {
@@ -110,6 +93,9 @@
         }
 
         const upstudent = (id) => {
+            const token = localStorage.getItem('access_token');
+            const config = { headers: { Authorization: `Bearer ${token}` } };
+
             const formData = new FormData();
             formData.append("sname", sname.value);
             formData.append("age", age.value);
@@ -121,20 +107,23 @@
             //     headers: { Authorization: `Bearer ${token}` }
             // };
 
-            axios.put(MY_SERVER + "/students/" + id, formData, config).then((r) => loadData());
+            axios.put(MY_SERVER + "/students/" + id, formData, config)
+                .then((r) => loadData())
+                .catch((error) => console.log(error));
         };
 
         const addstudent = () => {
+            const token = localStorage.getItem('access_token');
+            const config = { headers: { Authorization: `Bearer ${token}` } };
+
             const formData = new FormData();
             formData.append("sname", sname.value);
             formData.append("age", age.value);
             formData.append("email", email.value);
 
             axios.post(MY_SERVER + "/students/", formData, config).then((r) => loadData());
-            // console.log(result.data);
-
-            //   .catch((error) => console.log(error));
         };
+
 
 
     </script>

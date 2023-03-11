@@ -14,9 +14,36 @@
     Username <input id = "user" >
     Password <input id = "pwd" >
     <button onclick="login()">Login</button>
+    <button onclick="register_staff()">Register Staff</button>
+    <button onclick="register_student()">Register student</button>
+
     <script>
         const MY_SERVER = "http://127.0.0.1:8000"; 
         const config = {};
+
+        const register_staff = async () => {
+            res = await axios.post(MY_SERVER + "/register/", {
+                "username": user.value,
+                "password": pwd.value,
+                "email": "wa@ga.com"
+            });
+            console.log(res.data)
+        }
+
+        const register_student = async () => {
+            try {
+                const res = await axios.post(MY_SERVER + "/register_student/", {
+                    username: user.value,
+                    password: pwd.value,
+                    age: 0,  
+                    email: "wa@ga.com"
+                });
+                console.log(res.data);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+
 
         const login = async () => {
             try {

@@ -10,6 +10,10 @@ from rest_framework import serializers
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
+from django.contrib.auth.models import User
+from django.views.decorators.csrf import csrf_exempt
+
+
 
 
 # Create your views here.
@@ -21,6 +25,35 @@ class StudentsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Students
         fields = '__all__'
+
+# register staff
+@api_view(['POST'])
+def register(request):
+    user = User.objects.create_user(
+                username=request.data['username'],
+                email=request.data['email'],
+                password=request.data['password']
+            )
+    user.is_active = True
+    user.is_staff = True
+    user.save()
+    return Response("new user born")
+
+#register Student
+@csrf_exempt
+def register_student(request):
+    if request.method == 'POST':
+        sname = request.POST.get('username')
+        age = request.POST.get('age')
+        email = request.POST.get('email')
+
+        student = Students(sname=sname, age=age, email=email)
+        student.save()
+
+        return Response("new student registered")
+
+
+
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
