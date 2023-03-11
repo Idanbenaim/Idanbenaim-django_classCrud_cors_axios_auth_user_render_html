@@ -44,41 +44,64 @@
             <!--here the innerhtml table-->
         </tbody>
     </table>
-    
+    <!-- Username<input id="user">
+    Password<input id="pwd">
+    <button onclick="login()">Login</button> -->
     <button onclick="loadData()">Load students</button>
 
     <script>
         let token = ""
         const MY_SERVER = "http://127.0.0.1:8000"; // had to add last slash else I receive CORS error
+        // const config = {};
+
+        // const login = async () => {
+        //     try {
+        //         const res = await axios.post(MY_SERVER + "/login/", {
+        //             username: user.value,
+        //             password: pwd.value,
+        //         });
+        //         const accessToken = res.data.access;
+        //         const refreshToken = res.data.refresh;
+        //         config.headers = { Authorization: `Bearer ${accessToken}` };
+        //         console.log(`Access token: ${accessToken}`);
+        //         console.log(`Refresh token: ${refreshToken}`);
+        //         loadData(); // or any other function that requires authentication
+        //     } catch (error) {
+        //         console.log(error);
+        //     }
+        // };
 
 
         const loadData = async () => {
-            // const config = {
-            //     headers: { Authorization: `Bearer ${token}` }
-            // };
-            // res = await axios.get(MY_SERVER + "/students",config);
-            res = await axios.get(MY_SERVER + "/students");
+            const token = localStorage.getItem('access_token');
+            const config = { headers: { Authorization: `Bearer ${token}` } };
 
-            console.log(res.data);
-            display.innerHTML = "";
-            res.data.forEach((element) => {
-                row = `<td style="text-align:center;">${element.id}</td>
-                <td style="text-align:center;">${element.sname}</td>
-                <td style="text-align:center;">${element.age}</td>
-                <td style="text-align:center;">${element.email}</td>
-                <td style="text-align:center;"><button type="button" class="btn btn-warning" onclick="upstudent(${element.id})">Update</button></td>
-                <td style="text-align:center;"><button type="button" class="btn btn-danger" onclick="delstudent(${element.id})">Delete</button></td>
-                `;
+            try {
+                const res = await axios.get(MY_SERVER + "/students", config);
+                console.log(res.data);
 
-                display.innerHTML += row;
-            });
+                display.innerHTML = "";
+                res.data.forEach((element) => {
+                    row = `<td style="text-align:center;">${element.id}</td>
+                    <td style="text-align:center;">${element.sname}</td>
+                    <td style="text-align:center;">${element.age}</td>
+                    <td style="text-align:center;">${element.email}</td>
+                    <td style="text-align:center;"><button type="button" class="btn btn-warning" onclick="upstudent(${element.id})">Update</button></td>
+                    <td style="text-align:center;"><button type="button" class="btn btn-danger" onclick="delstudent(${element.id})">Delete</button></td>
+                    `;
+                    display.innerHTML += row;
+                });
+            } catch (error) {
+                console.log(error);
+            }
         };
+
         // <td style="text-align:center;"><img src=http://127.0.0.1:8000/media/${element.image} width="30" height="30"></td>
 
 
         function delstudent(id) {
             axios
-                .delete(MY_SERVER + "/students/" + id)
+                .delete(MY_SERVER + "/students/" + id, config)
                 .then((result) => {
                     console.log(result.data);
                     loadData();
@@ -93,12 +116,12 @@
             formData.append("email", email.value);
             formData.append("id", id); // the ID to the FormData object
             // formData.append("image", spic.files[0]);
-            
+
             // const config = {
             //     headers: { Authorization: `Bearer ${token}` }
             // };
 
-            axios.put(MY_SERVER + "/students/" + id, formData).then((r) => loadData());
+            axios.put(MY_SERVER + "/students/" + id, formData, config).then((r) => loadData());
         };
 
         const addstudent = () => {
@@ -107,7 +130,7 @@
             formData.append("age", age.value);
             formData.append("email", email.value);
 
-            axios.post(MY_SERVER + "/students/", formData).then((r) => loadData());
+            axios.post(MY_SERVER + "/students/", formData, config).then((r) => loadData());
             // console.log(result.data);
 
             //   .catch((error) => console.log(error));

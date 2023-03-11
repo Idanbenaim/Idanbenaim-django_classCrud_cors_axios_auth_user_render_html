@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
+
+</head>
+
+<body>
+    Username <input id = "user" >
+    Password <input id = "pwd" >
+    <button onclick="login()">Login</button>
+    <script>
+        const MY_SERVER = "http://127.0.0.1:8000"; 
+        const config = {};
+
+        const login = async () => {
+            try {
+                const res = await axios.post(MY_SERVER + "/login/", {
+                    username: user.value,
+                    password: pwd.value,
+                });
+                const accessToken = res.data.access;
+                const refreshToken = res.data.refresh;
+                config.headers = { Authorization: `Bearer ${accessToken}` };
+                console.log(`Access token: ${accessToken}`);
+                console.log(`Refresh token: ${refreshToken}`);
+                localStorage.setItem('access_token', accessToken);
+                localStorage.setItem('refresh_token', refreshToken);
+                window.location.href = "index.html";
+                loadData(); // or any other function that requires authentication
+            } catch (error) {
+                console.log(error);
+            }
+        };
+    </script>
+</body>
+
+</html>
