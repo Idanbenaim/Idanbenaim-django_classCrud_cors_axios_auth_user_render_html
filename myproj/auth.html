@@ -30,19 +30,19 @@
             console.log(res.data)
         }
 
-        const register_student = async () => {
-            try {
-                const res = await axios.post(MY_SERVER + "/register_student/", {
-                    username: user.value,
-                    password: pwd.value,
-                    age: 0,  
-                    email: "wa@ga.com"
-                });
-                console.log(res.data);
-            } catch (error) {
-                console.log(error);
-            }
-        };
+        // const register_student = async () => {
+        //     try {
+        //         const res = await axios.post(MY_SERVER + "/register_student/", {
+        //             username: user.value,
+        //             password: pwd.value,
+        //             age: 0,  
+        //             email: "wa@ga.com"
+        //         });
+        //         console.log(res.data);
+        //     } catch (error) {
+        //         console.log(error);
+        //     }
+        // };
 
 
         const login = async () => {

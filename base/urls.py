@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.urls import path
 from . import views
-from .views import register_student
+# from .views import register_student
 from rest_framework_simplejwt.views import TokenObtainPairView
 
 
@@ -11,6 +11,6 @@ urlpatterns = [
     path('students/',views.MyStudentsView.as_view()),
     path('login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('register/', views.register),
-    path('register_student/', views.register_student, name='register_student'),
+    # path('register_student/', views.register_student, name='register_student'),
 
 ]
