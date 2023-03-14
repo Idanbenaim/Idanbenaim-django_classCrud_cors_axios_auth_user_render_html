@@ -39,20 +39,6 @@ def register(request):
     user.save()
     return Response("new user born")
 
-# #register Student
-# @csrf_exempt
-# def register_student(request):
-#     if request.method == 'POST':
-#         sname = request.POST.get('username')
-#         age = request.POST.get('age')
-#         email = request.POST.get('email')
-
-#         student = Students(sname=sname, age=age, email=email)
-#         student.save()
-
-#         return Response("new student registered")
-
-
 
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
