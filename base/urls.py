@@ -10,5 +10,4 @@ urlpatterns = [
     path('students/',views.MyStudentsView.as_view()),
     path('login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('register/', views.register),
-
 ]
