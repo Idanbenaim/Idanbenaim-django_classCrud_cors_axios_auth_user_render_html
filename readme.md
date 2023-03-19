@@ -1,5 +1,8 @@
 # Django REST API Project
 This is a simple Django REST API project that allows you to manage a list of students. It uses Django for backend, Class-based views for CRUD operations, and Axios for making API requests. Users can register, login, and see only the students they added to the list.
+Register and login using this URL: https://jazzy-sopapillas-409500.netlify.app/auth.html
+After logging in you will be redirected to the students list. 
+After adding a student click on Load Students to view the students you have listed.
 
 ## Features
 Django-based backend
@@ -28,9 +31,11 @@ Users can view and manage only the students they added
 
 
 ## Usage
-1. Register a new user or log in with an existing account.
-2. After logging in, you can see a list of students you added.
-3. Add, update, or delete students using the provided form and buttons.
+1. Register a new user or log in with an existing account by visiting https://jazzy-sopapillas-409500.netlify.app/auth.html.
+2. After logging in, you will be redirected to the students list.
+3. Add a student using the provided form.
+4. Click on "Load Students" to view the students you have listed.
+5. Update or delete students using the corresponding buttons.
 
 The API allows you to perform the following actions:
  - Get a list of all students
